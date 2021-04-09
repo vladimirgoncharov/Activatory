@@ -26,10 +26,13 @@ class InternalActivationContext implements ActivationContext {
   @override
   Random get random => _random;
 
-  int arraySize(Type type) => _customizationsRegistry.getCustomization(type, key: key).arraySize;
+  int arraySize(Type type) =>
+      _customizationsRegistry.getCustomization(type, key: key).arraySize;
 
   DefaultValuesHandlingStrategy defaultValuesHandlingStrategy(Type type) =>
-      _customizationsRegistry.getCustomization(type, key: key).defaultValuesHandlingStrategy;
+      _customizationsRegistry
+          .getCustomization(type, key: key)
+          .defaultValuesHandlingStrategy;
 
   @override
   Object createUntyped(Type type) => _valueGenerator.createUntyped(type, this);
@@ -37,17 +40,20 @@ class InternalActivationContext implements ActivationContext {
   @override
   T create<T>() => createUntyped(T) as T;
 
-  FieldsAutoFillingStrategy fieldsAutoFill(Type type) =>
-      _customizationsRegistry.getCustomization(type, key: key).fieldsAutoFillingStrategy;
+  FieldsAutoFillingStrategy fieldsAutoFill(Type type) => _customizationsRegistry
+      .getCustomization(type, key: key)
+      .fieldsAutoFillingStrategy;
 
   bool isVisitLimitReached(Type type) {
-    final customization = _customizationsRegistry.getCustomization(type, key: key);
+    final customization =
+        _customizationsRegistry.getCustomization(type, key: key);
     return _countVisits(type) >= customization.maxRecursionLevel;
   }
 
   int _countVisits(Type type) => _stackTrace.where((t) => t == type).length;
 
-  void notifyVisited(Type type) => _stackTrace.removeAt(_stackTrace.lastIndexOf(type));
+  void notifyVisited(Type type) =>
+      _stackTrace.removeAt(_stackTrace.lastIndexOf(type));
 
   void notifyVisiting(Type type) => _stackTrace.add(type);
 }

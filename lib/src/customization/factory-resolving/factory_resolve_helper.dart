@@ -4,7 +4,8 @@ import 'package:activatory/src/factories/wrappers/factory_wrapper.dart';
 
 void assertAnyFactoryFound(List<Factory> factories) {
   if (factories.isEmpty) {
-    throw ActivationException('Cant resolve ctor strategy because no matching ctors found');
+    throw ActivationException(
+        'Cant resolve ctor strategy because no matching ctors found');
   }
 }
 

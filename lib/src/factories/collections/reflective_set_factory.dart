@@ -28,6 +28,7 @@ class ReflectiveSetFactory extends Factory<Set<Object>> {
   @override
   Set<Object> getDefaultValue() {
     final reflectedSet = reflectType(LinkedHashSet, [_type]);
-    return (reflectedSet as ClassMirror).newInstance(_emptyConstructorName, <Object>[]).reflectee as Set;
+    return (reflectedSet as ClassMirror)
+        .newInstance(_emptyConstructorName, <Object>[]).reflectee as Set;
   }
 }

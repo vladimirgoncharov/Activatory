@@ -231,8 +231,8 @@ class PrimitiveComplexObject {
   final DateTime dateTimeField;
   final TestEnum enumField;
 
-  PrimitiveComplexObject(
-      this.intField, this.stringField, this.doubleField, this.boolField, this.dateTimeField, this.enumField);
+  PrimitiveComplexObject(this.intField, this.stringField, this.doubleField,
+      this.boolField, this.dateTimeField, this.enumField);
 }
 
 abstract class Task {
@@ -288,9 +288,11 @@ class FiledsWithPublicSetters {
 
   String _publicProperty;
 
-  String get publicProperty => _publicProperty; //ignore: unnecessary_getters_setters
+  String get publicProperty =>
+      _publicProperty; //ignore: unnecessary_getters_setters
 
-  set publicProperty(String value) => _publicProperty = value; //ignore: unnecessary_getters_setters
+  set publicProperty(String value) =>
+      _publicProperty = value; //ignore: unnecessary_getters_setters
 }
 
 class SetInCtor {

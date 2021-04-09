@@ -2,7 +2,8 @@ import 'package:activatory/src/customization/type_customization.dart';
 import 'package:activatory/src/factories-registry/resolve_key.dart';
 
 class TypeCustomizationRegistry {
-  final Map<ResolveKey, TypeCustomization> _store = <ResolveKey, TypeCustomization>{};
+  final Map<ResolveKey, TypeCustomization> _store =
+      <ResolveKey, TypeCustomization>{};
   final ResolveKey _defaultKey = ResolveKey(null, null);
 
   TypeCustomizationRegistry() {

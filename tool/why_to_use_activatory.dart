@@ -40,7 +40,8 @@ void main() async {
       // act
       final result = await _manager.getById(userId);
       // assert
-      expect(result, predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
+      expect(result,
+          predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
     });
 
     test('can find all active users', () async {
@@ -67,7 +68,8 @@ void main() async {
       final result = await _manager.getActiveUsers();
       // assert
       expect(result, hasLength(1));
-      expect(result.first, predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
+      expect(result.first,
+          predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
     });
   });
 
@@ -106,12 +108,14 @@ void main() async {
       // act
       final result = await _manager.getById(userId);
       // assert
-      expect(result, predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
+      expect(result,
+          predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
     });
 
     test('can find all active users', () async {
       // arrange
-      final userDtoItems = List.generate(10, (i) => _createRandomUserDto(i, isActive: false));
+      final userDtoItems =
+          List.generate(10, (i) => _createRandomUserDto(i, isActive: false));
       final user = userDtoItems[_random.nextInt(10)];
       user.isActive = true;
       when(_apiMock.getAll()).thenAnswer((_) => Future.value(userDtoItems));
@@ -119,7 +123,8 @@ void main() async {
       final result = await _manager.getActiveUsers();
       // assert
       expect(result, hasLength(1));
-      expect(result.first, predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
+      expect(result.first,
+          predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
     });
   });
 
@@ -142,7 +147,8 @@ void main() async {
       // act
       final result = await _manager.getById(userId);
       // assert
-      expect(result, predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
+      expect(result,
+          predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
     });
 
     test('can find all active users', () async {
@@ -156,13 +162,16 @@ void main() async {
       final result = await _manager.getActiveUsers();
       // assert
       expect(result, hasLength(1));
-      expect(result.first, predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
+      expect(result.first,
+          predicate<UserViewModel>((x) => _isViewModelMatchUserDto(x, user)));
     });
   });
 }
 
 bool _isViewModelMatchUserDto(UserViewModel x, UserDto user) =>
-    x.id.value == user.id && x.name == user.name && x.birthDate == user.birthDate;
+    x.id.value == user.id &&
+    x.name == user.name &&
+    x.birthDate == user.birthDate;
 
 class UserDto {
   String name;
@@ -203,10 +212,14 @@ class UsersManager {
 
   Future<List<UserViewModel>> getActiveUsers() async {
     final allItems = await _api.getAll();
-    return allItems.where((x) => x.isActive).map(_convert).toList(growable: false);
+    return allItems
+        .where((x) => x.isActive)
+        .map(_convert)
+        .toList(growable: false);
   }
 
-  UserViewModel _convert(UserDto x) => UserViewModel(x.name, UserId(x.id), x.birthDate, x.userContacts.email);
+  UserViewModel _convert(UserDto x) =>
+      UserViewModel(x.name, UserId(x.id), x.birthDate, x.userContacts.email);
 
   Future<UserViewModel> getById(UserId id) async {
     final allItems = await _api.getAll();

@@ -42,7 +42,8 @@ class Activatory {
       _typeAliasesRegistry,
       FactoriesStore(),
     );
-    _valueGenerator = ValueGenerator(_factoriesRegistry, ReflectiveFieldsFiller());
+    _valueGenerator =
+        ValueGenerator(_factoriesRegistry, ReflectiveFieldsFiller());
   }
 
   // region Activation members
@@ -62,8 +63,10 @@ class Activatory {
   /// Returns [List] of size [count]. If [count] is not specified default strategy will be used.
   /// Uses [key] to select configuration.
   List<Object> getManyUntyped(Type type, {int count, Object key}) {
-    final countToCreate = count ?? _customizationsRegistry.getCustomization(type, key: key).arraySize;
-    return List.generate(countToCreate, (int index) => getUntyped(type, key: key));
+    final countToCreate = count ??
+        _customizationsRegistry.getCustomization(type, key: key).arraySize;
+    return List.generate(
+        countToCreate, (int index) => getUntyped(type, key: key));
   }
 
   /// Creates and returns multiple instances of specified type [T] filled with random data recursively.
@@ -89,18 +92,22 @@ class Activatory {
   }
 
   /// Returns one random item from [variations] excluding items from [except].  [variations] and [except] will be iterated while choosing item.
-  T take<T>(Iterable<T> variations, {Iterable<T> except}) => takeUntyped(variations, except: except) as T;
+  T take<T>(Iterable<T> variations, {Iterable<T> except}) =>
+      takeUntyped(variations, except: except) as T;
 
   /// Returns [count] random items from [variations] excluding items from [except].  [variations] and [except] will be iterated while choosing item.
-  List<Object> takeManyUntyped(Iterable variations, {int count, Iterable except}) {
+  List<Object> takeManyUntyped(Iterable variations,
+      {int count, Iterable except}) {
     // ignore: prefer_collection_literals
-    final filteredVariations = variations.toSet().difference(except?.toSet() ?? Set<Object>());
+    final filteredVariations =
+        variations.toSet().difference(except?.toSet() ?? <Object>{});
     return List.generate(count, (_) => _take(filteredVariations));
   }
 
   /// Returns [count] random items from [variations] excluding items from [except].  [variations] and [except] will be iterated while choosing item.
   List<T> takeMany<T>(Iterable<T> variations, {int count, Iterable<T> except}) {
-    final dynamicResult = takeManyUntyped(variations, count: count, except: except);
+    final dynamicResult =
+        takeManyUntyped(variations, count: count, except: except);
     //Cast result from List<dynamic> to List<T> through array creation
     return List<T>.from(dynamicResult);
   }
@@ -143,11 +150,13 @@ class Activatory {
   ///
   /// Allows to use [TTarget] type as activation target for [TSource] activation.
   /// [TTarget] should implements [TSource].
-  void replaceSupperClass<TSource, TTarget extends TSource>() => _typeAliasesRegistry.setAlias(TSource, TTarget);
+  void replaceSupperClass<TSource, TTarget extends TSource>() =>
+      _typeAliasesRegistry.setAlias(TSource, TTarget);
 
   /// Returns default customization which is used to activate not customized object types.
   /// Use returned value to customize default activation options.
-  TypeCustomization get defaultCustomization => _customizationsRegistry.getCustomization(null, key: null);
+  TypeCustomization get defaultCustomization =>
+      _customizationsRegistry.getCustomization(null, key: null);
 
   /// Returns customization for specified type [T] and [key].
   /// If [key] is not specified type default configuration will be returned.
@@ -155,10 +164,12 @@ class Activatory {
   ///  * if key is not provided as parameter for activation call;
   ///  * if key specified while activation call was not configured.
   ///  Use returned value to customize activation options for type [T] and [key] pair.
-  TypeCustomization customize<T>({Object key}) => _customizationsRegistry.getCustomization(T, key: key);
+  TypeCustomization customize<T>({Object key}) =>
+      _customizationsRegistry.getCustomization(T, key: key);
 
   //endregion
 
   InternalActivationContext _createContext(Object key) =>
-      InternalActivationContext(_valueGenerator, random, key, _customizationsRegistry);
+      InternalActivationContext(
+          _valueGenerator, random, key, _customizationsRegistry);
 }

@@ -15,7 +15,8 @@ class DefaultCtorFactoryResolver implements FactoryResolver {
   Iterable<Factory> _filterWrappedFactories(List<Factory> factories) sync* {
     for (final ctor in factories) {
       final unwrapped = unwrap(ctor);
-      if (unwrapped is ReflectiveObjectFactory && unwrapped.ctorType == CtorType.Default) {
+      if (unwrapped is ReflectiveObjectFactory &&
+          unwrapped.ctorType == CtorType.Default) {
         yield ctor;
       }
     }

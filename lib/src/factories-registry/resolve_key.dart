@@ -16,6 +16,9 @@ class ResolveKey {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is ResolveKey && runtimeType == other.runtimeType && _type == other._type && _key == other._key;
+        other is ResolveKey &&
+            runtimeType == other.runtimeType &&
+            _type == other._type &&
+            _key == other._key;
   }
 }

@@ -26,6 +26,7 @@ class ReflectiveArrayFactory extends Factory<List<Object>> {
   @override
   List<Object> getDefaultValue() {
     final reflectedList = reflectType(List, [_type]);
-    return (reflectedList as ClassMirror).newInstance(_emptyConstructorName, <Object>[]).reflectee as List;
+    return (reflectedList as ClassMirror)
+        .newInstance(_emptyConstructorName, <Object>[]).reflectee as List;
   }
 }

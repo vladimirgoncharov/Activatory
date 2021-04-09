@@ -2,7 +2,8 @@ import 'package:activatory/src/factories-registry/resolve_key.dart';
 import 'package:activatory/src/factories/factory.dart';
 
 class FactoriesStore {
-  final Map<ResolveKey, List<Factory>> _factories = <ResolveKey, List<Factory>>{};
+  final Map<ResolveKey, List<Factory>> _factories =
+      <ResolveKey, List<Factory>>{};
 
   FactoriesStore();
 

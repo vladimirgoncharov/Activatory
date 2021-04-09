@@ -7,15 +7,18 @@ class TypeCustomization {
   static const int _defaultRecursionLevel = 3;
   static const int _defaultArraySize = 3;
 
-  FactoryResolvingStrategy resolvingStrategy = FactoryResolvingStrategy.TakeFirstDefined;
+  FactoryResolvingStrategy resolvingStrategy =
+      FactoryResolvingStrategy.TakeFirstDefined;
 
   int arraySize = _defaultArraySize;
 
   int maxRecursionLevel = _defaultRecursionLevel;
 
-  DefaultValuesHandlingStrategy defaultValuesHandlingStrategy = DefaultValuesHandlingStrategy.ReplaceNulls;
+  DefaultValuesHandlingStrategy defaultValuesHandlingStrategy =
+      DefaultValuesHandlingStrategy.ReplaceNulls;
 
-  FieldsAutoFillingStrategy fieldsAutoFillingStrategy = FieldsAutoFillingStrategy.Fields;
+  FieldsAutoFillingStrategy fieldsAutoFillingStrategy =
+      FieldsAutoFillingStrategy.Fields;
 
   TypeCustomization clone() {
     return TypeCustomization()

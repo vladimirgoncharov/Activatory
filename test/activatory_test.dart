@@ -31,7 +31,15 @@ void main() {
     expect(TestEnum.values, contains(obj.enumField));
   }
 
-  final supportedPrimitiveTypes = [String, int, bool, double, DateTime, Duration, TestEnum];
+  final supportedPrimitiveTypes = [
+    String,
+    int,
+    bool,
+    double,
+    DateTime,
+    Duration,
+    TestEnum
+  ];
   group('Can generate primitive types ${supportedPrimitiveTypes}', () {
     for (final type in supportedPrimitiveTypes) {
       test(type, () {
@@ -81,11 +89,13 @@ void main() {
 
   group('Cant create', () {
     test('abstract class', () {
-      expect(() => _activatory.get<AbstractClass>(), throwsA(const TypeMatcher<ActivationException>()));
+      expect(() => _activatory.get<AbstractClass>(),
+          throwsA(const TypeMatcher<ActivationException>()));
     });
 
     test('class without public ctor', () {
-      expect(() => _activatory.get<NoPublicCtor>(), throwsA(const TypeMatcher<ActivationException>()));
+      expect(() => _activatory.get<NoPublicCtor>(),
+          throwsA(const TypeMatcher<ActivationException>()));
     });
   });
 
@@ -95,7 +105,8 @@ void main() {
         final result = _activatory.get<DefaultPositionalValues>();
 
         expect(result, isNotNull);
-        expect(result.notNullSetStringValue, equals(DefaultPositionalValues.defaultStringValue));
+        expect(result.notNullSetStringValue,
+            equals(DefaultPositionalValues.defaultStringValue));
         expect(result.nullSetStringValue, isNotNull);
         _assertComplexObjectIsNotNull(result.notSetObject);
         _assertComplexObjectIsNotNull(result.nullSetObject);
@@ -107,7 +118,8 @@ void main() {
         final result = _activatory.get<DefaultNamedValues>();
 
         expect(result, isNotNull);
-        expect(result.notNullSetString, equals(DefaultNamedValues.defaultValue));
+        expect(
+            result.notNullSetString, equals(DefaultNamedValues.defaultValue));
         expect(result.nullSetString, isNotNull);
         _assertComplexObjectIsNotNull(result.nullSetObject);
         _assertComplexObjectIsNotNull(result.notSetObject);
@@ -211,7 +223,8 @@ void main() {
 
   group('Can use labels to define', () {
     group('pined values to use:', () {
-      void testLabels<TKey, TValue>(TKey key1, TValue value1, TKey key2, TValue value2) {
+      void testLabels<TKey, TValue>(
+          TKey key1, TValue value1, TKey key2, TValue value2) {
         _activatory.useSingleton(value1, key: key1);
         _activatory.useSingleton(value2, key: key2);
 
@@ -307,7 +320,8 @@ void main() {
       expect(items, isNotNull);
       expect(items.length, equals(3));
 
-      final itemsType = items.map((x) => x.runtimeType).cast<Type>().toSet().single;
+      final itemsType =
+          items.map((x) => x.runtimeType).cast<Type>().toSet().single;
       expect(itemsType, equals(expectedType));
     }
 
@@ -359,7 +373,8 @@ void main() {
       });
 
       test('(with complex type)', () {
-        final result = _activatory.get<GenericArrayInCtor<GenericArrayInCtor<int>>>();
+        final result =
+            _activatory.get<GenericArrayInCtor<GenericArrayInCtor<int>>>();
 
         expect(result, isNotNull);
         _assertArray(result.listField, _getType<GenericArrayInCtor<int>>());
@@ -412,7 +427,8 @@ void main() {
     });
 
     test('with overrided factory recursion call', () {
-      _activatory.useFunction<LinkedNode>((ctx) => ctx.createUntyped(LinkedNode) as LinkedNode);
+      _activatory.useFunction<LinkedNode>(
+          (ctx) => ctx.createUntyped(LinkedNode) as LinkedNode);
       final linked = _activatory.get<LinkedNode>();
 
       expect(linked, isNull);
@@ -466,8 +482,10 @@ void main() {
           _activatory.customize<NamedCtorsAndDefaultCtor>().resolvingStrategy =
               FactoryResolvingStrategy.TakeFirstDefined;
 
-          final items = List.generate(15, (_) => _activatory.get<NamedCtorsAndDefaultCtor>());
-          final result = SplayTreeSet<String>.from(items.map<String>((item) => item.field));
+          final items = List.generate(
+              15, (_) => _activatory.get<NamedCtorsAndDefaultCtor>());
+          final result = SplayTreeSet<String>.from(
+              items.map<String>((item) => item.field));
 
           final expected = ['E'];
           expect(result, equals(expected));
@@ -477,19 +495,24 @@ void main() {
           _activatory.customize<NamedCtorsAndDefaultCtor>().resolvingStrategy =
               FactoryResolvingStrategy.TakeRandomNamedCtor;
 
-          final items = List.generate(30, (_) => _activatory.get<NamedCtorsAndDefaultCtor>());
-          final result = SplayTreeSet<String>.from(items.map<String>((item) => item.field));
+          final items = List.generate(
+              30, (_) => _activatory.get<NamedCtorsAndDefaultCtor>());
+          final result = SplayTreeSet<String>.from(
+              items.map<String>((item) => item.field));
 
           final expected = ['A', 'B', 'C', 'D'];
           expect(result, equals(expected));
         });
 
         test('take random for complex type to take random ctor', () {
-          _activatory.customize<NamedCtorsAndDefaultCtor>().resolvingStrategy = FactoryResolvingStrategy.TakeRandom;
+          _activatory.customize<NamedCtorsAndDefaultCtor>().resolvingStrategy =
+              FactoryResolvingStrategy.TakeRandom;
           _activatory.useSingleton<String>('E');
 
-          final items = List.generate(200, (_) => _activatory.get<NamedCtorsAndDefaultCtor>());
-          final result = SplayTreeSet<String>.from(items.map<String>((item) => item.field));
+          final items = List.generate(
+              200, (_) => _activatory.get<NamedCtorsAndDefaultCtor>());
+          final result = SplayTreeSet<String>.from(
+              items.map<String>((item) => item.field));
 
           final expected = ['A', 'B', 'C', 'D', 'E'];
           expect(result, equals(expected));
@@ -500,30 +523,38 @@ void main() {
               FactoryResolvingStrategy.TakeDefaultCtor;
           _activatory.useSingleton<String>('E');
 
-          final items = List.generate(15, (_) => _activatory.get<NamedCtorsAndDefaultCtor>());
-          final result = SplayTreeSet<String>.from(items.map<String>((item) => item.field));
+          final items = List.generate(
+              15, (_) => _activatory.get<NamedCtorsAndDefaultCtor>());
+          final result = SplayTreeSet<String>.from(
+              items.map<String>((item) => item.field));
 
           final expected = ['E'];
           expect(result, equals(expected));
         });
 
         test('take default for class with factory', () {
-          _activatory.customize<NamedCtorsAndFactory>().resolvingStrategy = FactoryResolvingStrategy.TakeDefaultCtor;
+          _activatory.customize<NamedCtorsAndFactory>().resolvingStrategy =
+              FactoryResolvingStrategy.TakeDefaultCtor;
           _activatory.useSingleton<String>('E');
 
-          final items = List.generate(15, (_) => _activatory.get<NamedCtorsAndFactory>());
-          final result = SplayTreeSet<String>.from(items.map<String>((item) => item.field));
+          final items =
+              List.generate(15, (_) => _activatory.get<NamedCtorsAndFactory>());
+          final result = SplayTreeSet<String>.from(
+              items.map<String>((item) => item.field));
 
           final expected = ['E'];
           expect(result, equals(expected));
         });
 
         test('take default for class with const ctor', () {
-          _activatory.customize<NamedCtorsAndConstCtor>().resolvingStrategy = FactoryResolvingStrategy.TakeDefaultCtor;
+          _activatory.customize<NamedCtorsAndConstCtor>().resolvingStrategy =
+              FactoryResolvingStrategy.TakeDefaultCtor;
           _activatory.useSingleton<String>('E');
 
-          final items = List.generate(15, (_) => _activatory.get<NamedCtorsAndConstCtor>());
-          final result = SplayTreeSet<String>.from(items.map<String>((item) => item.field));
+          final items = List.generate(
+              15, (_) => _activatory.get<NamedCtorsAndConstCtor>());
+          final result = SplayTreeSet<String>.from(
+              items.map<String>((item) => item.field));
 
           final expected = ['E'];
           expect(result, equals(expected));
@@ -590,8 +621,10 @@ void main() {
     test('recursion limit per type', () {
       const expectedArrayRecursionLimit = 5;
       const expectedRefRecursionLimit = 2;
-      _activatory.customize<TreeNode>().maxRecursionLevel = expectedArrayRecursionLimit;
-      _activatory.customize<LinkedNode>().maxRecursionLevel = expectedRefRecursionLimit;
+      _activatory.customize<TreeNode>().maxRecursionLevel =
+          expectedArrayRecursionLimit;
+      _activatory.customize<LinkedNode>().maxRecursionLevel =
+          expectedRefRecursionLimit;
 
       final tree = _activatory.get<TreeNode>();
       final linkedNode = _activatory.get<LinkedNode>();
@@ -686,39 +719,48 @@ void main() {
   group('Can customize default values usage for', () {
     group('positional arguments', () {
       test('with ReplaceNulls', () {
-        _activatory.customize<DefaultPositionalValues>().defaultValuesHandlingStrategy =
+        _activatory
+                .customize<DefaultPositionalValues>()
+                .defaultValuesHandlingStrategy =
             DefaultValuesHandlingStrategy.ReplaceNulls;
 
         final result = _activatory.get<DefaultPositionalValues>();
 
         expect(result, isNotNull);
-        expect(result.notNullSetStringValue, equals(DefaultPositionalValues.defaultStringValue));
+        expect(result.notNullSetStringValue,
+            equals(DefaultPositionalValues.defaultStringValue));
         expect(result.nullSetStringValue, isNotNull);
         _assertComplexObjectIsNotNull(result.notSetObject);
         _assertComplexObjectIsNotNull(result.nullSetObject);
       });
 
       test('with ReplaceAll', () {
-        _activatory.customize<DefaultPositionalValues>().defaultValuesHandlingStrategy =
+        _activatory
+                .customize<DefaultPositionalValues>()
+                .defaultValuesHandlingStrategy =
             DefaultValuesHandlingStrategy.ReplaceAll;
 
         final result = _activatory.get<DefaultPositionalValues>();
 
         expect(result, isNotNull);
-        expect(result.notNullSetStringValue, isNot(equals(DefaultPositionalValues.defaultStringValue)));
+        expect(result.notNullSetStringValue,
+            isNot(equals(DefaultPositionalValues.defaultStringValue)));
         expect(result.nullSetStringValue, isNotNull);
         _assertComplexObjectIsNotNull(result.notSetObject);
         _assertComplexObjectIsNotNull(result.nullSetObject);
       });
 
       test('with UseAll', () {
-        _activatory.customize<DefaultPositionalValues>().defaultValuesHandlingStrategy =
+        _activatory
+                .customize<DefaultPositionalValues>()
+                .defaultValuesHandlingStrategy =
             DefaultValuesHandlingStrategy.UseAll;
 
         final result = _activatory.get<DefaultPositionalValues>();
 
         expect(result, isNotNull);
-        expect(result.notNullSetStringValue, equals(DefaultPositionalValues.defaultStringValue));
+        expect(result.notNullSetStringValue,
+            equals(DefaultPositionalValues.defaultStringValue));
         expect(result.nullSetStringValue, isNull);
         expect(result.notSetObject, isNull);
         expect(result.nullSetObject, isNull);
@@ -727,39 +769,48 @@ void main() {
 
     group('named arguments', () {
       test('with ReplaceNulls', () {
-        _activatory.customize<DefaultNamedValues>().defaultValuesHandlingStrategy =
+        _activatory
+                .customize<DefaultNamedValues>()
+                .defaultValuesHandlingStrategy =
             DefaultValuesHandlingStrategy.ReplaceNulls;
 
         final result = _activatory.get<DefaultNamedValues>();
 
         expect(result, isNotNull);
-        expect(result.notNullSetString, equals(DefaultNamedValues.defaultValue));
+        expect(
+            result.notNullSetString, equals(DefaultNamedValues.defaultValue));
         expect(result.nullSetString, isNotNull);
         _assertComplexObjectIsNotNull(result.nullSetObject);
         _assertComplexObjectIsNotNull(result.notSetObject);
       });
 
       test('with ReplaceAll', () {
-        _activatory.customize<DefaultNamedValues>().defaultValuesHandlingStrategy =
+        _activatory
+                .customize<DefaultNamedValues>()
+                .defaultValuesHandlingStrategy =
             DefaultValuesHandlingStrategy.ReplaceAll;
 
         final result = _activatory.get<DefaultNamedValues>();
 
         expect(result, isNotNull);
-        expect(result.notNullSetString, isNot(equals(DefaultNamedValues.defaultValue)));
+        expect(result.notNullSetString,
+            isNot(equals(DefaultNamedValues.defaultValue)));
         expect(result.nullSetString, isNotNull);
         _assertComplexObjectIsNotNull(result.nullSetObject);
         _assertComplexObjectIsNotNull(result.notSetObject);
       });
 
       test('with UseAll', () {
-        _activatory.customize<DefaultNamedValues>().defaultValuesHandlingStrategy =
+        _activatory
+                .customize<DefaultNamedValues>()
+                .defaultValuesHandlingStrategy =
             DefaultValuesHandlingStrategy.UseAll;
 
         final result = _activatory.get<DefaultNamedValues>();
 
         expect(result, isNotNull);
-        expect(result.notNullSetString, equals(DefaultNamedValues.defaultValue));
+        expect(
+            result.notNullSetString, equals(DefaultNamedValues.defaultValue));
         expect(result.nullSetString, isNull);
         expect(result.nullSetObject, isNull);
         expect(result.notSetObject, isNull);
@@ -790,7 +841,9 @@ void main() {
 
   group('Can customize fields usage', () {
     test('FieldsAndSetters', () {
-      _activatory.customize<FiledsWithPublicSetters>().fieldsAutoFillingStrategy =
+      _activatory
+              .customize<FiledsWithPublicSetters>()
+              .fieldsAutoFillingStrategy =
           FieldsAutoFillingStrategy.FieldsAndSetters;
 
       final result = _activatory.get<FiledsWithPublicSetters>();
@@ -801,7 +854,9 @@ void main() {
     });
 
     test('fields only', () {
-      _activatory.customize<FiledsWithPublicSetters>().fieldsAutoFillingStrategy = FieldsAutoFillingStrategy.Fields;
+      _activatory
+          .customize<FiledsWithPublicSetters>()
+          .fieldsAutoFillingStrategy = FieldsAutoFillingStrategy.Fields;
 
       final result = _activatory.get<FiledsWithPublicSetters>();
 
@@ -811,7 +866,9 @@ void main() {
     });
 
     test('none', () {
-      _activatory.customize<FiledsWithPublicSetters>().fieldsAutoFillingStrategy = FieldsAutoFillingStrategy.None;
+      _activatory
+          .customize<FiledsWithPublicSetters>()
+          .fieldsAutoFillingStrategy = FieldsAutoFillingStrategy.None;
 
       final result = _activatory.get<FiledsWithPublicSetters>();
 
@@ -868,7 +925,8 @@ void main() {
       final variants = _activatory.getMany<int>(count: 10);
       final exclude = _activatory.take(variants);
 
-      final result = _activatory.takeMany<int>(variants, count: 10, except: [exclude]);
+      final result =
+          _activatory.takeMany<int>(variants, count: 10, except: [exclude]);
 
       expect(result, isNot(contains(exclude)));
       expect(result, hasLength(10));
@@ -880,12 +938,16 @@ void main() {
     test('TakeFirstDefined', () {
       _activatory.customize<SomeClassWithConstructors>().resolvingStrategy =
           FactoryResolvingStrategy.TakeFirstDefined; //Default strategy
-      final firstDefinedCtorCallCount =
-          _activatory.getMany<SomeClassWithConstructors>(count: 100).where((x) => x.value == 'named1').length; // 100
+      final firstDefinedCtorCallCount = _activatory
+          .getMany<SomeClassWithConstructors>(count: 100)
+          .where((x) => x.value == 'named1')
+          .length; // 100
 
       _activatory.useFunction((ctx) => SomeClassWithConstructors('hello'));
-      final latestOverrideCallCount =
-          _activatory.getMany<SomeClassWithConstructors>(count: 100).where((x) => x.value == 'hello').length; // 100
+      final latestOverrideCallCount = _activatory
+          .getMany<SomeClassWithConstructors>(count: 100)
+          .where((x) => x.value == 'hello')
+          .length; // 100
 
       expect(firstDefinedCtorCallCount, 100);
       expect(latestOverrideCallCount, 100);
@@ -896,15 +958,20 @@ void main() {
           FactoryResolvingStrategy.TakeRandomNamedCtor;
 
       final items = _activatory.getMany<SomeClassWithConstructors>(count: 100);
-      final firstNamedCtorCallsCount =
-          items.where((x) => x.value == 'named1').length; //exact count is unknown, but approximately equals 50
-      final secondNamedCtorCallsCount =
-          items.where((x) => x.value == 'named2').length; //exact count is unknown, but approximately equals 50
-      final totalCtorCallsCount = firstNamedCtorCallsCount + secondNamedCtorCallsCount; // 100
+      final firstNamedCtorCallsCount = items
+          .where((x) => x.value == 'named1')
+          .length; //exact count is unknown, but approximately equals 50
+      final secondNamedCtorCallsCount = items
+          .where((x) => x.value == 'named2')
+          .length; //exact count is unknown, but approximately equals 50
+      final totalCtorCallsCount =
+          firstNamedCtorCallsCount + secondNamedCtorCallsCount; // 100
 
       _activatory.useFunction((ctx) => SomeClassWithConstructors('hello1'));
-      final overrideUsedCount1 =
-          _activatory.getMany<SomeClassWithConstructors>(count: 100).where((x) => x.value == 'hello1').length; // 100
+      final overrideUsedCount1 = _activatory
+          .getMany<SomeClassWithConstructors>(count: 100)
+          .where((x) => x.value == 'hello1')
+          .length; // 100
 
       expect(firstNamedCtorCallsCount, greaterThan(0));
       expect(secondNamedCtorCallsCount, greaterThan(0));
@@ -913,30 +980,41 @@ void main() {
     });
 
     test('TakeRandom', () {
-      _activatory.customize<SomeClassWithConstructors>().resolvingStrategy = FactoryResolvingStrategy.TakeRandom;
+      _activatory.customize<SomeClassWithConstructors>().resolvingStrategy =
+          FactoryResolvingStrategy.TakeRandom;
 
       final items = _activatory.getMany<SomeClassWithConstructors>(count: 100);
-      final firstNamedCtorCallsCount =
-          items.where((x) => x.value == 'named1').length; //exact count is unknown, but approximately equals 33
-      final secondNamedCtorCallsCount =
-          items.where((x) => x.value == 'named2').length; //exact count is unknown, but approximately equals 33
-      final defaultCtorCallsCount =
-          items.where((x) => !x.value.startsWith('named')).length; //exact count is unknown, but approximately equals 33
-      final totalCtorCallCount = firstNamedCtorCallsCount + secondNamedCtorCallsCount + defaultCtorCallsCount; // 100
+      final firstNamedCtorCallsCount = items
+          .where((x) => x.value == 'named1')
+          .length; //exact count is unknown, but approximately equals 33
+      final secondNamedCtorCallsCount = items
+          .where((x) => x.value == 'named2')
+          .length; //exact count is unknown, but approximately equals 33
+      final defaultCtorCallsCount = items
+          .where((x) => !x.value.startsWith('named'))
+          .length; //exact count is unknown, but approximately equals 33
+      final totalCtorCallCount = firstNamedCtorCallsCount +
+          secondNamedCtorCallsCount +
+          defaultCtorCallsCount; // 100
 
       _activatory.useFunction((ctx) => SomeClassWithConstructors('hello'));
       final items2 = _activatory.getMany<SomeClassWithConstructors>(count: 100);
-      final overrideUsedCount =
-          items2.where((x) => x.value == 'hello').length; //exact count is unknown, but approximately equals 25
-      final firstNamedCtorCallsCount2 =
-          items2.where((x) => x.value == 'named1').length; //exact count is unknown, but approximately equals 25
-      final secondNamedCtorCallsCount2 =
-          items2.where((x) => x.value == 'named2').length; //exact count is unknown, but approximately equals 25
+      final overrideUsedCount = items2
+          .where((x) => x.value == 'hello')
+          .length; //exact count is unknown, but approximately equals 25
+      final firstNamedCtorCallsCount2 = items2
+          .where((x) => x.value == 'named1')
+          .length; //exact count is unknown, but approximately equals 25
+      final secondNamedCtorCallsCount2 = items2
+          .where((x) => x.value == 'named2')
+          .length; //exact count is unknown, but approximately equals 25
       final defaultCtorCallsCount2 = items2
           .where((x) => x.value != 'hello' && !x.value.startsWith('named'))
           .length; //exact count is unknown, but approximately equals 25
-      final totalOverrideCallsCount =
-          overrideUsedCount + firstNamedCtorCallsCount2 + secondNamedCtorCallsCount2 + defaultCtorCallsCount2;
+      final totalOverrideCallsCount = overrideUsedCount +
+          firstNamedCtorCallsCount2 +
+          secondNamedCtorCallsCount2 +
+          defaultCtorCallsCount2;
 
       expect(firstNamedCtorCallsCount, greaterThan(0));
       expect(secondNamedCtorCallsCount, greaterThan(0));
@@ -950,14 +1028,18 @@ void main() {
     });
 
     test('TakeDefaultCtor', () {
-      _activatory.customize<SomeClassWithConstructors>().resolvingStrategy = FactoryResolvingStrategy.TakeDefaultCtor;
+      _activatory.customize<SomeClassWithConstructors>().resolvingStrategy =
+          FactoryResolvingStrategy.TakeDefaultCtor;
 
       final items = _activatory.getMany<SomeClassWithConstructors>(count: 100);
-      final defaultCtorCallsCount = items.where((x) => !x.value.startsWith('named')).length; //100
+      final defaultCtorCallsCount =
+          items.where((x) => !x.value.startsWith('named')).length; //100
 
       _activatory.useFunction((ctx) => SomeClassWithConstructors('hello'));
-      final overrideUsedCount =
-          _activatory.getMany<SomeClassWithConstructors>(count: 100).where((x) => x.value == 'hello').length; //0
+      final overrideUsedCount = _activatory
+          .getMany<SomeClassWithConstructors>(count: 100)
+          .where((x) => x.value == 'hello')
+          .length; //0
 
       expect(defaultCtorCallsCount, 100);
       expect(overrideUsedCount, 0);
@@ -981,7 +1063,8 @@ void main() {
   });
 
   test('Can not activate private class', () {
-    expect(() => _activatory.get<_PrivateClass>(), throwsA(const TypeMatcher<ActivationException>()));
+    expect(() => _activatory.get<_PrivateClass>(),
+        throwsA(const TypeMatcher<ActivationException>()));
   });
 }
 

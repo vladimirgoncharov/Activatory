@@ -26,7 +26,8 @@ typedef _FactoryActivator = Factory Function();
 class FactoriesProvider {
   static const _emptySymbol = Symbol('');
   final Random _random;
-  final Map<Type, _FactoryActivator> _predefinedFactories = <Type, _FactoryActivator>{};
+  final Map<Type, _FactoryActivator> _predefinedFactories =
+      <Type, _FactoryActivator>{};
 
   final _listMirror = reflectClass(List);
   final _setMirror = reflectClass(Set);
@@ -42,12 +43,18 @@ class FactoriesProvider {
     _predefinedFactories[Null] = () => NullFactory();
 
     //TODO: Explicit factories are not required here. Reflective will works fine.
-    _predefinedFactories[getType<List<bool>>()] = () => ExplicitArrayFactory<bool>();
-    _predefinedFactories[getType<List<int>>()] = () => ExplicitArrayFactory<int>();
-    _predefinedFactories[getType<List<double>>()] = () => ExplicitArrayFactory<double>();
-    _predefinedFactories[getType<List<String>>()] = () => ExplicitArrayFactory<String>();
-    _predefinedFactories[getType<List<DateTime>>()] = () => ExplicitArrayFactory<DateTime>();
-    _predefinedFactories[getType<List<Null>>()] = () => ExplicitArrayFactory<Null>();
+    _predefinedFactories[getType<List<bool>>()] =
+        () => ExplicitArrayFactory<bool>();
+    _predefinedFactories[getType<List<int>>()] =
+        () => ExplicitArrayFactory<int>();
+    _predefinedFactories[getType<List<double>>()] =
+        () => ExplicitArrayFactory<double>();
+    _predefinedFactories[getType<List<String>>()] =
+        () => ExplicitArrayFactory<String>();
+    _predefinedFactories[getType<List<DateTime>>()] =
+        () => ExplicitArrayFactory<DateTime>();
+    _predefinedFactories[getType<List<Null>>()] =
+        () => ExplicitArrayFactory<Null>();
   }
 
   List<Factory> create(Type type) {
@@ -63,7 +70,8 @@ class FactoriesProvider {
     }
   }
 
-  List<Factory> _createObjectReflectiveFactories(ClassMirror classMirror, Type type) {
+  List<Factory> _createObjectReflectiveFactories(
+      ClassMirror classMirror, Type type) {
     // We need to make sure that we are using original class mirror, not generic subtype
     // Otherwise subtype check will return false
     final originalClassMirror = reflectClass(type);
@@ -84,14 +92,15 @@ class FactoriesProvider {
     }
 
     if (classMirror.isAbstract) {
-      throw ActivationException('Cant create instance of abstract class (${classMirror})');
+      throw ActivationException(
+          'Cant create instance of abstract class ($classMirror)');
     }
 
     final constructors = _extractConstructors(classMirror, type)
         .map((ctorInfo) => ReflectiveObjectFactory(ctorInfo))
         .toList(growable: false);
     if (constructors.isEmpty) {
-      throw ActivationException('Cant find constructor for type ${classMirror}');
+      throw ActivationException('Cant find constructor for type $classMirror');
     }
 
     return constructors;
@@ -103,25 +112,32 @@ class FactoriesProvider {
         .where((d) => d.isStatic && d.simpleName == #values)
         .first;
     if (declaration == null) {
-      throw ActivationException('Declaration of values for enum ${classMirror} not found');
+      throw ActivationException(
+          'Declaration of values for enum $classMirror not found');
     }
 
-    final allValues = classMirror.getField(declaration.simpleName).reflectee as List;
+    final allValues =
+        classMirror.getField(declaration.simpleName).reflectee as List;
     if (allValues.isEmpty) {
-      throw ActivationException('Enum ${classMirror} values found but empty');
+      throw ActivationException('Enum $classMirror values found but empty');
     }
 
     return RandomArrayItemFactory(allValues);
   }
 
-  Iterable<CtorInfo> _extractConstructors(ClassMirror classMirror, Type type) sync* {
+  Iterable<CtorInfo> _extractConstructors(
+      ClassMirror classMirror, Type type) sync* {
     final constructors = classMirror.declarations.values;
 
     for (var method in constructors) {
       if (method is MethodMirror && method.isConstructor && !method.isPrivate) {
-        final arguments = method.parameters.map(constructArgumentInfo).toList(growable: false);
+        final arguments = method.parameters
+            .map(constructArgumentInfo)
+            .toList(growable: false);
         final name = method.constructorName;
-        final ctorType = method.constructorName != _emptySymbol ? CtorType.Named : CtorType.Default;
+        final ctorType = method.constructorName != _emptySymbol
+            ? CtorType.Named
+            : CtorType.Default;
         yield CtorInfo(classMirror, name, arguments, ctorType, type);
       }
     }

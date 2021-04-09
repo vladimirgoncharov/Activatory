@@ -24,11 +24,14 @@ void main() {
   assert(randomMyClass.finalStringFieldFilledWithCtor != null);
 
   // Activatory can create complex graph of objects. No pre-configuration required.
-  final ComplexGraphClass myComplexGraphClass = activatory.get<ComplexGraphClass>();
+  final ComplexGraphClass myComplexGraphClass =
+      activatory.get<ComplexGraphClass>();
   // Activatory supply random data to constructor parameters and public setters.
   assert(myComplexGraphClass.dateTimeFieldWithPublicSetter != null);
   // If constructor parameter or setter is user defined class it will be created in the same way.
-  assert(myComplexGraphClass.myClassFieldWithPublicSetter.intFieldWithPublicSetter != null);
+  assert(myComplexGraphClass
+          .myClassFieldWithPublicSetter.intFieldWithPublicSetter !=
+      null);
 
   // Recursive graphs are also supported.
   final LinkedNode<int> myLinkedList = activatory.get<LinkedNode<int>>();
@@ -42,8 +45,10 @@ void main() {
   final MyClassWithArrayIterableAndMapParameters collectionsSample =
       activatory.get<MyClassWithArrayIterableAndMapParameters>();
   assert(collectionsSample.intArray.length == 3); //default array length is 3
-  assert(collectionsSample.intIterable.length == 3); //default iterable length is 3
-  assert(collectionsSample.intToStringMap.length == 3); //default map length is 3
+  assert(
+      collectionsSample.intIterable.length == 3); //default iterable length is 3
+  assert(
+      collectionsSample.intToStringMap.length == 3); //default map length is 3
 
   // Generics are also supported. No pre-configuration required.
   final MyGenericClass<MyGenericClass<int>> genericClassInstance =
@@ -52,34 +57,43 @@ void main() {
 
   // Activatory support all constructor types:
   // 1. Default constructor
-  final MyClassWithDefaultConstructor myClassWithDefaultConstructor = activatory.get<MyClassWithDefaultConstructor>();
+  final MyClassWithDefaultConstructor myClassWithDefaultConstructor =
+      activatory.get<MyClassWithDefaultConstructor>();
   assert(myClassWithDefaultConstructor.someData != null);
   // 2. Named constructor
-  final MyClassWithNamedConstructor myClassWithNamedConstructor = activatory.get<MyClassWithNamedConstructor>();
+  final MyClassWithNamedConstructor myClassWithNamedConstructor =
+      activatory.get<MyClassWithNamedConstructor>();
   assert(myClassWithNamedConstructor.someData != null);
   // 3. Factory constructors
-  final MyClassWithFactoryConstructor myClassWithFactoryConstructor = activatory.get<MyClassWithFactoryConstructor>();
+  final MyClassWithFactoryConstructor myClassWithFactoryConstructor =
+      activatory.get<MyClassWithFactoryConstructor>();
   assert(myClassWithFactoryConstructor.someData != null);
 
   // Default parameter values are used while they are not nulls. But this behavior can be customized (see below).
   // 1. Named parameters
-  final MyClassWithNamedParameter withNamedParameters = activatory.get<MyClassWithNamedParameter>();
-  assert(withNamedParameters.namedArgumentWithDefaultValue == MyClassWithNamedParameter.namedArgumentDefaultValue);
+  final MyClassWithNamedParameter withNamedParameters =
+      activatory.get<MyClassWithNamedParameter>();
+  assert(withNamedParameters.namedArgumentWithDefaultValue ==
+      MyClassWithNamedParameter.namedArgumentDefaultValue);
   assert(withNamedParameters.namedArgumentWithoutDefaultValue != null);
   // 2. Position parameters
-  final MyClassWithPositionalParameters withPositionParameters = activatory.get<MyClassWithPositionalParameters>();
+  final MyClassWithPositionalParameters withPositionParameters =
+      activatory.get<MyClassWithPositionalParameters>();
   assert(withPositionParameters.positionalArgumentWithDefaultValue ==
       MyClassWithPositionalParameters.positionalArgumentDefaultValue);
   assert(withPositionParameters.positionalArgumentWithoutDefaultValue != null);
 
   // Default object creation strategy can be customized.
   // 1. With explicit function to completely control object creation
-  activatory.useFunction((ActivationContext ctx) => 42); // Imagine some logic behind 42 receiving, e.g. custom code.
+  activatory.useFunction((ActivationContext ctx) =>
+      42); // Imagine some logic behind 42 receiving, e.g. custom code.
   int goodNumber = activatory.get<int>();
   assert(goodNumber == 42);
   // Function accept activation context that can be used in complex scenarios to activate other types, read settings and etc.
-  activatory.useFunction((ActivationContext ctx) => 'This string contains 34 characters');
-  activatory.useFunction((ActivationContext ctx) => ctx.create<String>().length);
+  activatory.useFunction(
+      (ActivationContext ctx) => 'This string contains 34 characters');
+  activatory
+      .useFunction((ActivationContext ctx) => ctx.create<String>().length);
   final int thirtyFour = activatory.get<int>();
   assert(thirtyFour == 34);
   // 2.1. With singleton value generated automatically
@@ -98,7 +112,8 @@ void main() {
   activatory.useFunction((ctx) => ctx.create<int>().toString());
   final String goodNumberStr = activatory.get<String>(key: 'good number');
   assert(goodNumberStr == '42');
-  final String notGoodNumberStr = activatory.get<String>(key: 'not good number');
+  final String notGoodNumberStr =
+      activatory.get<String>(key: 'not good number');
   assert(notGoodNumberStr == '13');
   // Key can be any type of object. It's value can be accessed through ActivationContext if required.
   final DateTime now = DateTime.now();
@@ -112,7 +127,8 @@ void main() {
   assert(notSoAbstractInstance.runtimeType == AbstractClassInheritor);
 
   // Activation behavior can be customized for all types or per type.
-  final TypeCustomization defaultCustomization = activatory.defaultCustomization;
+  final TypeCustomization defaultCustomization =
+      activatory.defaultCustomization;
   defaultCustomization
     ..arraySize = 100500
     ..defaultValuesHandlingStrategy = DefaultValuesHandlingStrategy.ReplaceAll
@@ -124,7 +140,8 @@ void main() {
   // To take random item(s) from array
   final fromOneToFive = activatory.take([1, 2, 3, 4, 5]);
   assert(fromOneToFive >= 1 && fromOneToFive <= 5);
-  final threeItemsFromOneToFiveButNotOne = activatory.takeMany([1, 2, 4, 5], count: 3, except: [1]);
+  final threeItemsFromOneToFiveButNotOne =
+      activatory.takeMany([1, 2, 4, 5], count: 3, except: [1]);
   assert(threeItemsFromOneToFiveButNotOne.length == 3);
   assert(threeItemsFromOneToFiveButNotOne.contains(1) == false);
 
@@ -135,7 +152,8 @@ class ComplexGraphClass {
   final DateTime dateTimeFieldWithPublicSetter;
   MyClass myClassFieldWithPublicSetter;
 
-  ComplexGraphClass(this.dateTimeFieldWithPublicSetter, this.myClassFieldWithPublicSetter);
+  ComplexGraphClass(
+      this.dateTimeFieldWithPublicSetter, this.myClassFieldWithPublicSetter);
 }
 
 class MyClass {
@@ -191,7 +209,8 @@ class MyClassWithArrayIterableAndMapParameters {
   final Iterable<int> intIterable;
   final Map<int, String> intToStringMap;
 
-  MyClassWithArrayIterableAndMapParameters(this.intArray, this.intIterable, this.intToStringMap);
+  MyClassWithArrayIterableAndMapParameters(
+      this.intArray, this.intIterable, this.intToStringMap);
 }
 
 class MyGenericClass<T> {

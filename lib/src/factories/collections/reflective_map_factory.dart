@@ -14,7 +14,8 @@ class ReflectiveMapFactory implements Factory<Map<Object, Object>> {
   Map get(InternalActivationContext context) {
     final result = createEmptyMap();
     // Prevent from creating array of nulls.
-    if (context.isVisitLimitReached(_keyType) || context.isVisitLimitReached(_valueType)) {
+    if (context.isVisitLimitReached(_keyType) ||
+        context.isVisitLimitReached(_valueType)) {
       return result;
     }
 
@@ -28,7 +29,8 @@ class ReflectiveMapFactory implements Factory<Map<Object, Object>> {
 
   Map createEmptyMap() {
     final reflectedList = reflectType(Map, [_keyType, _valueType]);
-    return (reflectedList as ClassMirror).newInstance(_emptyConstructorName, <Object>[]).reflectee as Map;
+    return (reflectedList as ClassMirror)
+        .newInstance(_emptyConstructorName, <Object>[]).reflectee as Map;
   }
 
   @override

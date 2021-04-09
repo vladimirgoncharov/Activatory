@@ -27,12 +27,14 @@ class ReflectiveObjectFactory implements Factory<Object> {
       }
     }
 
-    final result = _ctorInfo.classMirror.newInstance(_ctorInfo.ctor, positionalArguments, namedArguments);
+    final result = _ctorInfo.classMirror
+        .newInstance(_ctorInfo.ctor, positionalArguments, namedArguments);
     return result.reflectee;
   }
 
   Object _generateValues(ArgumentInfo arg, InternalActivationContext context) {
-    final defaultValuesStrategy = context.defaultValuesHandlingStrategy(_ctorInfo.classType);
+    final defaultValuesStrategy =
+        context.defaultValuesHandlingStrategy(_ctorInfo.classType);
     switch (defaultValuesStrategy) {
       case DefaultValuesHandlingStrategy.UseAll:
         return arg.defaultValue;
@@ -41,7 +43,8 @@ class ReflectiveObjectFactory implements Factory<Object> {
       case DefaultValuesHandlingStrategy.ReplaceAll:
         return context.createUntyped(arg.type);
       default:
-        throw UnsupportedError('${defaultValuesStrategy.toString()} is not supported');
+        throw UnsupportedError(
+            '${defaultValuesStrategy.toString()} is not supported');
     }
   }
 

@@ -44,8 +44,10 @@ class FactoriesRegistry {
       factories = _store.find(typeOnlyStoreKey);
     }
     if (factories != null) {
-      final customization = _customizationsRegistry.getCustomization(affectedType, key: key);
-      final ctorResolveStrategy = _ctorResolveStrategyFactory.getResolver(customization.resolvingStrategy);
+      final customization =
+          _customizationsRegistry.getCustomization(affectedType, key: key);
+      final ctorResolveStrategy = _ctorResolveStrategyFactory
+          .getResolver(customization.resolvingStrategy);
       final backend = ctorResolveStrategy.resolve(factories);
       return backend;
     }
@@ -63,5 +65,6 @@ class FactoriesRegistry {
     _store.store(wrapped, resolveKey);
   }
 
-  void register<T>(Factory<T> backend, {Object key}) => _registerUntyped(backend, T, key: key);
+  void register<T>(Factory<T> backend, {Object key}) =>
+      _registerUntyped(backend, T, key: key);
 }

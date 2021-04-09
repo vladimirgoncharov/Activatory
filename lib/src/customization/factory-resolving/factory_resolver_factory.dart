@@ -9,7 +9,8 @@ import 'package:activatory/src/customization/factory-resolving/use_random_factor
 
 class FactoryResolverFactory {
   final Random _random;
-  final Map<FactoryResolvingStrategy, FactoryResolver> _cache = <FactoryResolvingStrategy, FactoryResolver>{};
+  final Map<FactoryResolvingStrategy, FactoryResolver> _cache =
+      <FactoryResolvingStrategy, FactoryResolver>{};
 
   FactoryResolverFactory(
     this._random,
